@@ -1,248 +1,56 @@
-"""
-Shared pytest fixtures.
+name: Tests
 
-Common synthetic time series generators
-used across test modules.
-"""
+on:
+  push:
+    branches:
+      - main
 
+  pull_request:
+    branches:
+      - main
 
-import numpy as np
 
-import pytest
+jobs:
+  test:
 
+    runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        python-version:
+          - "3.9"
+          - "3.10"
+          - "3.11"
 
-# ---------------------------------------------------
-# Random seed fixture
-# ---------------------------------------------------
 
-@pytest.fixture
-def random_seed():
+    steps:
 
-    return 42
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
 
-# ---------------------------------------------------
-# Stationary AR(1)
-# ---------------------------------------------------
 
-@pytest.fixture
-def stationary_series():
+      - name: Upgrade pip
+        run: |
+          python -m pip install --upgrade pip
 
-    rng = np.random.RandomState(
-        42
-    )
 
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
 
-    n = 3000
 
+      - name: Install package
+        run: |
+          pip install -e .
 
-    x = np.zeros(n)
 
-
-    noise = rng.normal(
-        0,
-        1,
-        n
-    )
-
-
-    for i in range(1, n):
-
-        x[i] = (
-
-            0.8 * x[i-1]
-
-            +
-
-            noise[i]
-
-        )
-
-
-    return x
-
-
-
-# ---------------------------------------------------
-# Strong dependency AR(1)
-# ---------------------------------------------------
-
-@pytest.fixture
-def predictable_series():
-
-    rng = np.random.RandomState(
-        42
-    )
-
-
-    n = 3000
-
-
-    x = np.zeros(n)
-
-
-    noise = rng.normal(
-        0,
-        0.1,
-        n
-    )
-
-
-    for i in range(1, n):
-
-        x[i] = (
-
-            0.9 * x[i-1]
-
-            +
-
-            noise[i]
-
-        )
-
-
-    return x
-
-
-
-# ---------------------------------------------------
-# White noise
-# ---------------------------------------------------
-
-@pytest.fixture
-def white_noise_series():
-
-    rng = np.random.RandomState(
-        42
-    )
-
-
-    return rng.normal(
-
-        0,
-
-        1,
-
-        3000
-
-    )
-
-
-
-# ---------------------------------------------------
-# Random walk
-# ---------------------------------------------------
-
-@pytest.fixture
-def random_walk_series():
-
-    rng = np.random.RandomState(
-        42
-    )
-
-
-    steps = rng.normal(
-
-        0,
-
-        1,
-
-        3000
-
-    )
-
-
-    return np.cumsum(
-        steps
-    )
-
-
-
-# ---------------------------------------------------
-# Regime change series
-# ---------------------------------------------------
-
-@pytest.fixture
-def regime_change_series():
-
-    rng = np.random.RandomState(
-        42
-    )
-
-
-    n = 3000
-
-
-    half = n // 2
-
-
-    first = np.zeros(
-        half
-    )
-
-
-    noise = rng.normal(
-        0,
-        1,
-        half
-    )
-
-
-    for i in range(1, half):
-
-        first[i] = (
-
-            0.9 * first[i-1]
-
-            +
-
-            noise[i]
-
-        )
-
-
-    second = rng.normal(
-
-        0,
-
-        1,
-
-        half
-
-    )
-
-
-    return np.concatenate(
-
-        [
-            first,
-            second
-        ]
-
-    )
-
-
-
-# ---------------------------------------------------
-# Short series for fast tests
-# ---------------------------------------------------
-
-@pytest.fixture
-def short_series():
-
-    rng = np.random.RandomState(
-        42
-    )
-
-
-    return rng.normal(
-
-        0,
-
-        1,
-
-        500
-
-    )
+      - name: Run tests
+        run: |
+          pytest
