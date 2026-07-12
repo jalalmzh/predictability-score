@@ -24,3 +24,10 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = ["."]
+
+
+[tool.pytest.ini_options]
+
+markers = [
+    "slow: marks tests that train machine learning models"
+]
