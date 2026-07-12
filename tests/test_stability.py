@@ -22,7 +22,7 @@ from predictability_score.stability import (
 # ---------------------------------------------------
 
 def generate_ar1(
-    n=2000,
+    n=5000,
     phi=0.8,
     seed=42,
 ):
@@ -61,7 +61,7 @@ def generate_ar1(
 
 
 def generate_regime_change(
-    n=2000,
+    n=5000,
     seed=42,
 ):
     """
@@ -244,9 +244,8 @@ def test_window_scores_exist():
 
     assert "std" in details
 
-    assert "coefficient_of_variation" in details"""
-Tests for TemporalEvaluator.
-"""
+    assert "coefficient_of_variation" in details
+#Tests for TemporalEvaluator.
 
 
 import numpy as np
@@ -263,7 +262,7 @@ from predictability_score.temporal import (
 # ---------------------------------------------------
 
 def generate_ar1(
-    n=2000,
+    n=5000,
     phi=0.8,
     seed=42,
 ):
@@ -298,7 +297,7 @@ def generate_ar1(
 
 
 def generate_white_noise(
-    n=2000,
+    n=5000,
     seed=42,
 ):
     """
@@ -317,7 +316,7 @@ def generate_white_noise(
 
 
 def generate_nonlinear_series(
-    n=2000,
+    n=5000,
 ):
     """
     Logistic-map based nonlinear sequence.
