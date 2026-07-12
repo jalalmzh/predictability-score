@@ -1,0 +1,72 @@
+# ==================================================
+# Documentation
+# ==================================================
+
+include README.md
+
+include LICENSE
+
+
+
+# ==================================================
+# Project configuration
+# ==================================================
+
+include pyproject.toml
+
+include requirements.txt
+
+include requirements-tensorflow.txt
+
+
+
+# ==================================================
+# Package source files
+# ==================================================
+
+recursive-include predictability_score *.py
+
+
+
+# ==================================================
+# Exclude unnecessary files
+# ==================================================
+
+exclude .gitignore
+
+
+prune tests/__pycache__
+
+prune predictability_score/__pycache__
+
+
+
+# ==================================================
+# Exclude local artifacts
+# ==================================================
+
+prune data
+
+prune datasets
+
+prune models
+
+prune checkpoints
+
+prune outputs
+
+prune results
+
+
+
+# ==================================================
+# Exclude temporary files
+# ==================================================
+
+global-exclude *.py[cod]
+
+global-exclude *.so
+
+global-exclude *.dll
+
+global-exclude *.log
