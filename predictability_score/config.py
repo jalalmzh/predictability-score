@@ -57,7 +57,7 @@ class PredictabilityConfig:
         self,
         window: int = 32,
         forecast_horizon: int = 1,
-        forecast_backend: Optional[str] = "tensorflow",
+        forecast_backend: Optional[str] = None,
         random_state: int = 42,
         verbose: bool = False,
         shuffle_iterations: int = 100,

@@ -75,13 +75,26 @@ class StationarityEvaluator:
         )
 
         return {
-            "score": final_score,
+            "score": score,
+
             "details": {
+
+                "adf": {
+                    "score": adf_score
+                },
+
+                "kpss": {
+                    "score": kpss_score
+                },
+
+                # backward compatibility
                 "adf_score": adf_score,
                 "kpss_score": kpss_score,
+
                 "alpha": self.alpha
             }
         }
+        
 
 
     def _adf_score(self, series):
